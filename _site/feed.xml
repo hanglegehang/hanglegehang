@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 05 Jan 2017 04:27:12 +0800</pubDate>
-    <lastBuildDate>Thu, 05 Jan 2017 04:27:12 +0800</lastBuildDate>
+    <pubDate>Thu, 05 Jan 2017 04:30:07 +0800</pubDate>
+    <lastBuildDate>Thu, 05 Jan 2017 04:30:07 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -27,12 +27,18 @@
 &lt;p&gt;apache-tomcat-8.5.9-windows-x64.zip &lt;em&gt;—Tomcat&lt;/em&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;一jdk环境配置&quot;&gt;一、jdk环境配置&lt;/h2&gt;
+
 &lt;h4 id=&quot;1下载java&quot;&gt;1、下载java&lt;/h4&gt;
+
 &lt;p&gt;到&lt;a href=&quot;http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&quot;&gt;oracle.com&lt;/a&gt;下载java，具体版本根据自己系统下载。
 &lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/Jietu20170104-153630.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
 &lt;h4 id=&quot;2安装jdk&quot;&gt;2、安装jdk&lt;/h4&gt;
+
 &lt;p&gt;下载得到jdk-8u111-windows-i586.exe，直接双击运行安装，一路next就可以，默认是安装到系统盘下面的Program Files，我这里装在C:\Java下面，注意安装完jdk之后会自动运行安装jre，这时的安装路径最好和jdk一样，方便管理，我的都是在C:\Java下面。&lt;/p&gt;
+
 &lt;h4 id=&quot;3配置环境变量&quot;&gt;3、配置环境变量&lt;/h4&gt;
+
 &lt;p&gt;右击“我的电脑”，点击“属性”；选择“高级”选项卡，点击“环境变量”； 在“系统变量”中，设置3项属性，JAVA_HOME,PATH,CLASSPATH(大小写无所谓),若已存在则点击“编辑”，不存在则点击“新建”；一般 PATH都是已经存在的。
 &lt;br /&gt;
 配置如下：
@@ -44,8 +50,10 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  &lt;strong&gt;注意分号&lt;/stro
 &lt;p&gt;&lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;4测试&quot;&gt;4、测试&lt;/h4&gt;
+
 &lt;p&gt;然后进入CMD命令测试下自己的Java是否安装成功；测试命令java -version
 出现java版本信息的话就证明Java环境已经配置成功了&lt;/p&gt;
+
 &lt;h2 id=&quot;二tomcat服务器&quot;&gt;二、Tomcat服务器&lt;/h2&gt;
 &lt;blockquote&gt;
   &lt;p&gt;Tomcat常用作servlet的运行容器，在JavaWeb开发中广泛使用，当然，Tomcat也可为提供HTML页面服务。&lt;/p&gt;

@@ -214,12 +214,18 @@
 <p>apache-tomcat-8.5.9-windows-x64.zip <em>—Tomcat</em></p>
 
 <h2 id="一jdk环境配置">一、jdk环境配置</h2>
+
 <h4 id="1下载java">1、下载java</h4>
+
 <p>到<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">oracle.com</a>下载java，具体版本根据自己系统下载。
 <img src="http://oj8v2br1f.bkt.clouddn.com/Jietu20170104-153630.jpg" alt="" /></p>
+
 <h4 id="2安装jdk">2、安装jdk</h4>
+
 <p>下载得到jdk-8u111-windows-i586.exe，直接双击运行安装，一路next就可以，默认是安装到系统盘下面的Program Files，我这里装在C:\Java下面，注意安装完jdk之后会自动运行安装jre，这时的安装路径最好和jdk一样，方便管理，我的都是在C:\Java下面。</p>
+
 <h4 id="3配置环境变量">3、配置环境变量</h4>
+
 <p>右击“我的电脑”，点击“属性”；选择“高级”选项卡，点击“环境变量”； 在“系统变量”中，设置3项属性，JAVA_HOME,PATH,CLASSPATH(大小写无所谓),若已存在则点击“编辑”，不存在则点击“新建”；一般 PATH都是已经存在的。
 <br />
 配置如下：
@@ -231,8 +237,10 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  <strong>注意分号</strong>
 <p><img src="http://oj8v2br1f.bkt.clouddn.com/3.png" alt="" /></p>
 
 <h4 id="4测试">4、测试</h4>
+
 <p>然后进入CMD命令测试下自己的Java是否安装成功；测试命令java -version
 出现java版本信息的话就证明Java环境已经配置成功了</p>
+
 <h2 id="二tomcat服务器">二、Tomcat服务器</h2>
 <blockquote>
   <p>Tomcat常用作servlet的运行容器，在JavaWeb开发中广泛使用，当然，Tomcat也可为提供HTML页面服务。</p>
