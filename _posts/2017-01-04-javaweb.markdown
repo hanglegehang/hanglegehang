@@ -1,13 +1,11 @@
----
+/Users/lihang/hanglegehang/_includes/nav.html---
 layout: post
 title:  "Java Web开发环境搭建之windows"
 subtitle:   " \"Hello World, Hello Blog\""
 author:     "李航"
 date:   2017-01-04 23:35:59 +0800
 catalog: true
-tags:
-    - 生活
-categories: java javaweb
+tags:	Java JavaWeb
 ---
 #Java Web开发环境搭建之windows
 >JavaWeb的入门级开发环境为IDE+Tomcat+MySQL，IDE的选择上，常见的选择为Eclipse、Myeclipse或IDEA。

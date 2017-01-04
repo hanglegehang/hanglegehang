@@ -5,43 +5,130 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 05 Jan 2017 02:16:08 +0800</pubDate>
-    <lastBuildDate>Thu, 05 Jan 2017 02:16:08 +0800</lastBuildDate>
+    <pubDate>Thu, 05 Jan 2017 02:55:07 +0800</pubDate>
+    <lastBuildDate>Thu, 05 Jan 2017 02:55:07 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>JSP、Servlet中的路径问题</title>
+        <description>&lt;p&gt;##JSP、Servlet中的路径问题
+###1.JSP中获得当前应用的相对路径和绝对路径&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;#####当前我们访问classroom项目下的login.jsp页面&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;得到项目名：request.getContextPath();&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;/classroom&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;得到当前页面所在目录下全名称：request.getServletPath()&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;/pages/login.jsp&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得到包含工程名的当前页面全路径:request.getRequestURI();&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;/classroom/pages/login.jsp&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;项目的绝对路径：application.getRealPath();&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;F:/apache-tomcat-8.0.32/wtpwebapps/Classroom&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得到页面所在服务器的绝对路径：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;new File(application.getRealPath(request.getServletPath())).getParent()；&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;F:/apache-tomcat-8.0.32/wtpwebapps/Classroom/pages/login.jsp&lt;/p&gt;
+
+&lt;p&gt;###2.Servlet中获得当前应用的相对路径和绝对路径&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得到请求页面的url：request.getRequestURL();&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;http://localhost:8080/classroom/pages/login.jsp&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得到请求页面的uri（说是得到包含工程名的当前页面全路径：
+request.getRequestURI();&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;/classroom/pages/login.jsp&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得到项目名：request.getContextPath()&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;/classroom;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得到请求的页面名：request.getServletPath()&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;/login.jsp&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得项目所在服务器的绝对路径：request.getSession().getServletContext().getRealPath(“”)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;F:/apache-tomcat-8.0.32/wtpwebapps/Classroom&lt;/p&gt;
+
+&lt;p&gt;###3.JSP、Servlet中的相对路径&lt;/p&gt;
+
+&lt;p&gt;a) 在JSP中&lt;/p&gt;
+
+&lt;p&gt;“/”代表站点（服务器）根目录http://127.0.0.1/&lt;/p&gt;
+
+&lt;p&gt;b) 在Servlet中&lt;/p&gt;
+
+&lt;p&gt;“/”代表Web应用的根目录http://127.0.0.1/JSP_Servlet_Path/&lt;/p&gt;
+
+&lt;p&gt;request.getRequestDispatcher(“/a/a.jsp”).forward(request, response);&lt;/p&gt;
+
+&lt;p&gt;相对路径/a/a.jsp中/相对于web应用的根目录，所以相当于请求跳转到绝对路径&lt;/p&gt;
+
+&lt;p&gt;http://127.0.0.1/JSP_Servlet_Path/a/a.jsp&lt;/p&gt;
+
+&lt;p&gt;response.sendRedirect(“/JSP_Servlet_Path/b/b.jsp”);&lt;/p&gt;
+
+&lt;p&gt;因为重定向中的方法是传递给浏览器，用于重新发送请求的，而在浏览器端“/”代表，相对于站点根目录http://127.0.0.1/，所以这里必须要加上/JSP_Servlet_Path，这样浏览器重新请求的地址为：http://127.0.0.1/JSP_Servlet_Path/b/b.jsp&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 04 Jan 2017 23:35:59 +0800</pubDate>
-        <link>http://localhost:4000/jekyll/update/java/2017/01/04/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll/update/java/2017/01/04/welcome-to-jekyll/</guid>
+        <link>http://localhost:4000/2017/01/04/JSP-Servlet%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/01/04/JSP-Servlet%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/</guid>
         
+        <category>Java</category>
         
-        <category>jekyll</category>
+        <category>Servlet</category>
         
-        <category>update</category>
+        <category>Jsp</category>
         
-        <category>java</category>
         
       </item>
     
       <item>
-        <title>Java Web开发环境搭建之windows</title>
-        <description>&lt;p&gt;#Java Web开发环境搭建之windows&lt;/p&gt;
+        <title>Javaweb</title>
+        <description>&lt;p&gt;/Users/lihang/hanglegehang/_includes/nav.html—
+layout: post
+title:  “Java Web开发环境搭建之windows”
+subtitle:   “ &quot;Hello World, Hello Blog&quot;”
+author:     “李航”
+date:   2017-01-04 23:35:59 +0800
+catalog: true
+tags:	Java JavaWeb
+—
+#Java Web开发环境搭建之windows&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;JavaWeb的入门级开发环境为IDE+Tomcat+MySQL，IDE的选择上，常见的选择为Eclipse、Myeclipse或IDEA。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -131,16 +218,10 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  &lt;strong&gt;注意分号&lt;/stro
 &lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/26.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Wed, 04 Jan 2017 23:35:59 +0800</pubDate>
-        <link>http://localhost:4000/java/javaweb/2017/01/04/javaweb/</link>
-        <guid isPermaLink="true">http://localhost:4000/java/javaweb/2017/01/04/javaweb/</guid>
+        <pubDate>Wed, 04 Jan 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/01/04/javaweb/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/01/04/javaweb/</guid>
         
-        <category>生活</category>
-        
-        
-        <category>java</category>
-        
-        <category>javaweb</category>
         
       </item>
     
