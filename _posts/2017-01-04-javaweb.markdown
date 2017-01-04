@@ -76,7 +76,7 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  **注意分号**
 
 ## 三、Eclipse配置（JDK，Tomcat）
 
-###（一）配置jdk
+### 1、配置jdk
 
 1、找到Windows--Preferences--Java--Installed JREs,点击add
 ![](http://oj8v2br1f.bkt.clouddn.com/13.png)
@@ -87,14 +87,14 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  **注意分号**
 4、配置结果
 ![](http://oj8v2br1f.bkt.clouddn.com/16.png)
 
-###（二）配置tomcat
+### 2、配置tomcat
 
 1、Windows--Preferences--Server--Runtime Environment
 ![](http://oj8v2br1f.bkt.clouddn.com/17.png)
 2、Browse 选择Tomcat路径，JRE选择jdk
 ![](http://oj8v2br1f.bkt.clouddn.com/18.png)
 
-###（三）页面测试
+### 3、页面测试
 
 1、新建一个Dynamic Web Project，点next
 ![](http://oj8v2br1f.bkt.clouddn.com/19.png)
