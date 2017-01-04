@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 05 Jan 2017 04:42:38 +0800</pubDate>
-    <lastBuildDate>Thu, 05 Jan 2017 04:42:38 +0800</lastBuildDate>
+    <pubDate>Thu, 05 Jan 2017 04:51:07 +0800</pubDate>
+    <lastBuildDate>Thu, 05 Jan 2017 04:51:07 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -82,7 +82,7 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  &lt;strong&gt;注意分号&lt;/stro
 
 &lt;h2 id=&quot;三eclipse配置jdktomcat&quot;&gt;三、Eclipse配置（JDK，Tomcat）&lt;/h2&gt;
 
-&lt;h3 id=&quot;1配置jdk&quot;&gt;1、配置jdk&lt;/h3&gt;
+&lt;h4 id=&quot;1配置jdk&quot;&gt;1、配置jdk&lt;/h4&gt;
 
 &lt;p&gt;1、找到Windows–Preferences–Java–Installed JREs,点击add
 &lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/13.png&quot; alt=&quot;&quot; /&gt;
@@ -93,14 +93,14 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  &lt;strong&gt;注意分号&lt;/stro
 4、配置结果
 &lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/16.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;2配置tomcat&quot;&gt;2、配置tomcat&lt;/h3&gt;
+&lt;h4 id=&quot;2配置tomcat&quot;&gt;2、配置tomcat&lt;/h4&gt;
 
 &lt;p&gt;1、Windows–Preferences–Server–Runtime Environment
 &lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/17.png&quot; alt=&quot;&quot; /&gt;
 2、Browse 选择Tomcat路径，JRE选择jdk
 &lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/18.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;3页面测试&quot;&gt;3、页面测试&lt;/h3&gt;
+&lt;h4 id=&quot;3页面测试&quot;&gt;3、页面测试&lt;/h4&gt;
 
 &lt;p&gt;1、新建一个Dynamic Web Project，点next
 &lt;img src=&quot;http://oj8v2br1f.bkt.clouddn.com/19.png&quot; alt=&quot;&quot; /&gt;
