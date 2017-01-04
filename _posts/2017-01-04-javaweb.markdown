@@ -39,7 +39,7 @@ Path：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;  **注意分号**
 
 ![](http://oj8v2br1f.bkt.clouddn.com/3.png)
 
-### 4、测试
+#### 4、测试
 然后进入CMD命令测试下自己的Java是否安装成功；测试命令java -version
 出现java版本信息的话就证明Java环境已经配置成功了
 ## 二、Tomcat服务器
