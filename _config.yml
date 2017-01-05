@@ -3,8 +3,8 @@ title: Lih Blog
 SEOTitle: 李航的博客 | Lih Blog
 header-img: img/home-bg.jpg
 email: 1244225737@qq.com
-description: ""
-keyword: ""
+description: "关于java后端 | 这里是 @Lih李航 的个人博客，与你一起发现更大的世界。"
+keyword: "李航,Lih李航,Lih,李航的博客,博客,个人网站,后端,java,互联网,设计,产品"
 url: "https://blog.fightinghang.cn"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
