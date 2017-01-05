@@ -5,32 +5,9 @@
     <description>关于java后端 | 这里是 @Lih李航 的个人博客，与你一起发现更大的世界。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 05 Jan 2017 21:16:53 +0800</pubDate>
-    <lastBuildDate>Thu, 05 Jan 2017 21:16:53 +0800</lastBuildDate>
+    <pubDate>Thu, 05 Jan 2017 21:25:02 +0800</pubDate>
+    <lastBuildDate>Thu, 05 Jan 2017 21:25:02 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
-    
-      <item>
-        <title>JSP、Servlet中的路径问题</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;写写代码，感受生活&lt;br /&gt;
-离开世界之前，一切都是过程&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Hey,我是李航。东北大学秦皇岛分校的大二学生。平常喜欢读一些关于技术的书，
-谨以此博客记录学习生活中的点滴体验，希望与大家共同学习进步。&lt;/p&gt;
-</description>
-        <pubDate>Wed, 04 Jan 2017 23:35:59 +0800</pubDate>
-        <link>http://localhost:4000/2017/01/04/about/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/01/04/about/</guid>
-        
-        <category>Java</category>
-        
-        <category>Servlet</category>
-        
-        <category>Jsp</category>
-        
-        
-      </item>
     
       <item>
         <title>Java Web开发环境搭建之windows</title>
