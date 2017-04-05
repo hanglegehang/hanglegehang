@@ -5,9 +5,110 @@
     <description>关于java后端 | 这里是 @Lih李航 的个人博客，与你一起发现更大的世界。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 14 Jan 2017 13:29:43 +0800</pubDate>
-    <lastBuildDate>Sat, 14 Jan 2017 13:29:43 +0800</lastBuildDate>
+    <pubDate>Wed, 05 Apr 2017 13:29:36 +0800</pubDate>
+    <lastBuildDate>Wed, 05 Apr 2017 13:29:36 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>Json Web Token的定义和使用环境</title>
+        <description>&lt;h3 id=&quot;什么是json-web-token&quot;&gt;&lt;strong&gt;什么是Json Web Token?&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Json Web Token （JWT）是一种开放标准（RFC7519），它定义了一种简单且独立的方式，用于将各方之间的信息安全地传输为JSON对象。该信息可以通过数字签名进行验证和信任。JWT可以使用一个secret（HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。&lt;/li&gt;
+  &lt;li&gt;进一步解释这个定义的一些概念。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;紧凑：&lt;/strong&gt;由于其较小的尺寸，JWT可通过URL，POST参数或HTTP标头内发送。另外，较小的尺寸意味着传输速度很快。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;独立的：&lt;/strong&gt;有效载荷包含有关用户的所有必需信息，避免了多次查询数据库的需要。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;什么时候应该使用json-web令牌&quot;&gt;&lt;strong&gt;什么时候应该使用JSON Web令牌？&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;认证：&lt;/strong&gt;这是使用JWT最常见的情况。一旦用户登录，每个后续请求将包括JWT，允许用户访问该Token允许的路由，服务和资源。单点登录是一个广泛使用JWT的功能，因为它的开销很小，并且能够在不同的域中轻松使用。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;信息交换：&lt;/strong&gt; JSON Web令牌是在各方之间安全传输信息的好方法，因为它可以签名，例如使用公钥/私钥对，您可以确定发件人的真实性。另外，当使用header和payload计算签名时，您还可以验证内容是否未被篡改。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;json-web-token的结构&quot;&gt;&lt;strong&gt;JSON Web Token的结构&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;一个JWT实际上就是一个字符串，它由三部分组成，头部（Header）、载荷（Payload）与签名（Signature）。
+JWT通常如下所示：xxxxx.yyyyy.zzzz&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;头部header&quot;&gt;头部(Header)&lt;/h4&gt;
+&lt;p&gt;Header通常由两部分组成：token的类型，即JWT，以及使用的哈希算法，如HMAC SHA256或RSA。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;alg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;HS256&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;typ&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;JWT&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;进行Base64编码，之后的字符串就成了JWT的Header（头部）：&lt;/p&gt;
+&lt;h4 id=&quot;载荷payload&quot;&gt;载荷（Payload）&lt;/h4&gt;
+&lt;p&gt;token的第二部分是payload，包含了我们声明的属性(claims)，claims是关于实体(通常是用户)和附加元数据的声明。claims有三种类型：reserved, public, 和private。我们可以先将用户认证的操作描述成一个JSON对象。其中添加了一些其他的信息，帮助今后收到这个JWT的服务器理解这个JWT。
+&lt;strong&gt;1、Reserved claims:&lt;/strong&gt; 这是一组预定义的不强制使用但是推荐使用的属性，&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;sub&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;iss&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://localhost:8000/auth/login&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;iat&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1451888119&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;exp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1454516119&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;nbf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1451888119&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;jti&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;37c107e4609ddbcc9c096ea5ee76c667&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;这里面的前6个字段都是由JWT的标准所定义的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;sub: 该JWT所面向的用户&lt;/li&gt;
+  &lt;li&gt;iss: 该JWT的签发者&lt;/li&gt;
+  &lt;li&gt;iat(issued at): 在什么时候签发的token&lt;/li&gt;
+  &lt;li&gt;exp(expires): token什么时候过期&lt;/li&gt;
+  &lt;li&gt;nbf(not before)：token在此时间之前不能被接收处理&lt;/li&gt;
+  &lt;li&gt;jti：JWT ID为web token提供唯一标识&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Public claims:&lt;/strong&gt; 这些可以由使用JWT的人随意定义
+&lt;strong&gt;Private claims:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;sub&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1234567890&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;John Doe&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;admin&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;将上面的JSON对象进行base64编码形成JSON Web Token的第二部分。Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。&lt;/p&gt;
+
+&lt;h4 id=&quot;签名signature&quot;&gt;(签名)Signature&lt;/h4&gt;
+&lt;p&gt;签名部分需要使用经过base64编码的Header和经过base64编码的载荷和一个&lt;code class=&quot;highlighter-rouge&quot;&gt;secret&lt;/code&gt;，使用在Header中定义的算法加密&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HMACSHA256(
+  base64UrlEncode(header) + &quot;.&quot; +
+  base64UrlEncode(payload),
+  secret)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;加密后得到的字符串就是token的第三部分。签名(Signature)用于验证JWT的发件人的真实性，并确保该消息没有改变。&lt;/p&gt;
+
+&lt;h3 id=&quot;完整的jwt&quot;&gt;&lt;strong&gt;完整的JWT&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;完整的tiken是三个Base64编码的字符串，以点分隔，可以轻松地在HTML和HTTP环境中传递，而与基于XML的标准（如SAML）相比，它们更便于传输。&lt;/p&gt;
+
+&lt;p&gt;关于用java如何实现JWT的，我会在今后的文章为大家说明&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;参考文献：&lt;a href=&quot;http://www.tuicool.com/articles/IRJnaa&quot;&gt;http://www.tuicool.com/articles/IRJnaa&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;https://jwt.io/introduction/&quot;&gt;https://jwt.io/introduction/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Wed, 05 Apr 2017 12:20:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/04/05/Json-Web-Token/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/04/05/Json-Web-Token/</guid>
+        
+        <category>Jwt</category>
+        
+        
+      </item>
     
       <item>
         <title>Java Web开发环境搭建之windows</title>

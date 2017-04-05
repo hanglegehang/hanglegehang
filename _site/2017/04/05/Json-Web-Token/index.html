@@ -10,7 +10,7 @@
     <meta name="keywords"  content="李航,Lih李航,Lih,李航的博客,博客,个人网站,后端,java,互联网,设计,产品">
     <meta name="theme-color" content="#000000">
     
-    <title>JSP、Servlet中的路径问题 - 李航的博客 | Lih Blog</title>
+    <title>Json Web Token的定义和使用环境 - 李航的博客 | Lih Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/01/04/JSP-Servlet%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/">
+    <link rel="canonical" href="http://localhost:4000/2017/04/05/Json-Web-Token/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,19 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Java" title="Java">Java</a>
-                        
-                        <a class="tag" href="/tags/#Servlet" title="Servlet">Servlet</a>
-                        
-                        <a class="tag" href="/tags/#Jsp" title="Jsp">Jsp</a>
+                        <a class="tag" href="/tags/#Jwt" title="Jwt">Jwt</a>
                         
                     </div>
-                    <h1>JSP、Servlet中的路径问题</h1>
+                    <h1>Json Web Token的定义和使用环境</h1>
                     
                     
-                    <h2 class="subheading"> "Hello World, Hello Blog"</h2>
+                    <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by 李航 on January 4, 2017</span>
+                    <span class="meta">Posted by 李航 on April 5, 2017</span>
                 </div>
             </div>
         </div>
@@ -200,98 +196,95 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p>##JSP、Servlet中的路径问题
-###1.JSP中获得当前应用的相对路径和绝对路径</p>
+				<h3 id="什么是json-web-token"><strong>什么是Json Web Token?</strong></h3>
 
-<p>#####当前我们访问classroom项目下的login.jsp页面</p>
+<ul>
+  <li>Json Web Token （JWT）是一种开放标准（RFC7519），它定义了一种简单且独立的方式，用于将各方之间的信息安全地传输为JSON对象。该信息可以通过数字签名进行验证和信任。JWT可以使用一个secret（HMAC算法）或使用RSA的公钥/私钥对可以对JWT进行签名。</li>
+  <li>进一步解释这个定义的一些概念。</li>
+  <li><strong>紧凑：</strong>由于其较小的尺寸，JWT可通过URL，POST参数或HTTP标头内发送。另外，较小的尺寸意味着传输速度很快。</li>
+  <li><strong>独立的：</strong>有效载荷包含有关用户的所有必需信息，避免了多次查询数据库的需要。</li>
+</ul>
 
-<blockquote>
-  <p>得到项目名：request.getContextPath();</p>
-</blockquote>
+<h3 id="什么时候应该使用json-web令牌"><strong>什么时候应该使用JSON Web令牌？</strong></h3>
 
-<p>/classroom</p>
+<ul>
+  <li><strong>认证：</strong>这是使用JWT最常见的情况。一旦用户登录，每个后续请求将包括JWT，允许用户访问该Token允许的路由，服务和资源。单点登录是一个广泛使用JWT的功能，因为它的开销很小，并且能够在不同的域中轻松使用。</li>
+  <li><strong>信息交换：</strong> JSON Web令牌是在各方之间安全传输信息的好方法，因为它可以签名，例如使用公钥/私钥对，您可以确定发件人的真实性。另外，当使用header和payload计算签名时，您还可以验证内容是否未被篡改。</li>
+</ul>
 
-<blockquote>
-  <p>得到当前页面所在目录下全名称：request.getServletPath()</p>
-</blockquote>
-
-<p>/pages/login.jsp</p>
-
-<blockquote>
-  <p>得到包含工程名的当前页面全路径:request.getRequestURI();</p>
-</blockquote>
-
-<p>/classroom/pages/login.jsp</p>
+<h3 id="json-web-token的结构"><strong>JSON Web Token的结构</strong></h3>
 
 <blockquote>
-  <p>项目的绝对路径：application.getRealPath();</p>
+  <p>一个JWT实际上就是一个字符串，它由三部分组成，头部（Header）、载荷（Payload）与签名（Signature）。
+JWT通常如下所示：xxxxx.yyyyy.zzzz</p>
 </blockquote>
 
-<p>F:/apache-tomcat-8.0.32/wtpwebapps/Classroom</p>
+<h4 id="头部header">头部(Header)</h4>
+<p>Header通常由两部分组成：token的类型，即JWT，以及使用的哈希算法，如HMAC SHA256或RSA。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HS256"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"typ"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JWT"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+<p>进行Base64编码，之后的字符串就成了JWT的Header（头部）：</p>
+<h4 id="载荷payload">载荷（Payload）</h4>
+<p>token的第二部分是payload，包含了我们声明的属性(claims)，claims是关于实体(通常是用户)和附加元数据的声明。claims有三种类型：reserved, public, 和private。我们可以先将用户认证的操作描述成一个JSON对象。其中添加了一些其他的信息，帮助今后收到这个JWT的服务器理解这个JWT。
+<strong>1、Reserved claims:</strong> 这是一组预定义的不强制使用但是推荐使用的属性，</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"sub"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"iss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8000/auth/login"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"iat"</span><span class="p">:</span><span class="w"> </span><span class="mi">1451888119</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"exp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1454516119</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"nbf"</span><span class="p">:</span><span class="w"> </span><span class="mi">1451888119</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"jti"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37c107e4609ddbcc9c096ea5ee76c667"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+<p>这里面的前6个字段都是由JWT的标准所定义的。</p>
+
+<ul>
+  <li>sub: 该JWT所面向的用户</li>
+  <li>iss: 该JWT的签发者</li>
+  <li>iat(issued at): 在什么时候签发的token</li>
+  <li>exp(expires): token什么时候过期</li>
+  <li>nbf(not before)：token在此时间之前不能被接收处理</li>
+  <li>jti：JWT ID为web token提供唯一标识</li>
+</ul>
+
+<p><strong>Public claims:</strong> 这些可以由使用JWT的人随意定义
+<strong>Private claims:</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"sub"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1234567890"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+<p>将上面的JSON对象进行base64编码形成JSON Web Token的第二部分。Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。</p>
+
+<h4 id="签名signature">(签名)Signature</h4>
+<p>签名部分需要使用经过base64编码的Header和经过base64编码的载荷和一个<code class="highlighter-rouge">secret</code>，使用在Header中定义的算法加密</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+</code></pre>
+</div>
+<p>加密后得到的字符串就是token的第三部分。签名(Signature)用于验证JWT的发件人的真实性，并确保该消息没有改变。</p>
+
+<h3 id="完整的jwt"><strong>完整的JWT</strong></h3>
+<p>完整的tiken是三个Base64编码的字符串，以点分隔，可以轻松地在HTML和HTTP环境中传递，而与基于XML的标准（如SAML）相比，它们更便于传输。</p>
+
+<p>关于用java如何实现JWT的，我会在今后的文章为大家说明</p>
 
 <blockquote>
-  <p>得到页面所在服务器的绝对路径：</p>
+  <p>参考文献：<a href="http://www.tuicool.com/articles/IRJnaa">http://www.tuicool.com/articles/IRJnaa</a></p>
+
+  <p><a href="https://jwt.io/introduction/">https://jwt.io/introduction/</a></p>
 </blockquote>
-
-<blockquote>
-  <p>new File(application.getRealPath(request.getServletPath())).getParent()；</p>
-</blockquote>
-
-<p>F:/apache-tomcat-8.0.32/wtpwebapps/Classroom/pages/login.jsp</p>
-
-<p>###2.Servlet中获得当前应用的相对路径和绝对路径</p>
-
-<blockquote>
-  <p>得到请求页面的url：request.getRequestURL();</p>
-</blockquote>
-
-<p>http://localhost:8080/classroom/pages/login.jsp</p>
-
-<blockquote>
-  <p>得到请求页面的uri（说是得到包含工程名的当前页面全路径：
-request.getRequestURI();</p>
-</blockquote>
-
-<p>/classroom/pages/login.jsp</p>
-
-<blockquote>
-  <p>得到项目名：request.getContextPath()</p>
-</blockquote>
-
-<p>/classroom;</p>
-
-<blockquote>
-  <p>得到请求的页面名：request.getServletPath()</p>
-</blockquote>
-
-<p>/login.jsp</p>
-
-<blockquote>
-  <p>得项目所在服务器的绝对路径：request.getSession().getServletContext().getRealPath(“”)</p>
-</blockquote>
-
-<p>F:/apache-tomcat-8.0.32/wtpwebapps/Classroom</p>
-
-<p>###3.JSP、Servlet中的相对路径</p>
-
-<p>a) 在JSP中</p>
-
-<p>“/”代表站点（服务器）根目录http://127.0.0.1/</p>
-
-<p>b) 在Servlet中</p>
-
-<p>“/”代表Web应用的根目录http://127.0.0.1/JSP_Servlet_Path/</p>
-
-<p>request.getRequestDispatcher(“/a/a.jsp”).forward(request, response);</p>
-
-<p>相对路径/a/a.jsp中/相对于web应用的根目录，所以相当于请求跳转到绝对路径</p>
-
-<p>http://127.0.0.1/JSP_Servlet_Path/a/a.jsp</p>
-
-<p>response.sendRedirect(“/JSP_Servlet_Path/b/b.jsp”);</p>
-
-<p>因为重定向中的方法是传递给浏览器，用于重新发送请求的，而在浏览器端“/”代表，相对于站点根目录http://127.0.0.1/，所以这里必须要加上/JSP_Servlet_Path，这样浏览器重新请求的地址为：http://127.0.0.1/JSP_Servlet_Path/b/b.jsp</p>
-
 
 
                 <hr style="visibility: hidden;">
@@ -300,14 +293,14 @@ request.getRequestURI();</p>
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2017/01/04/JSP、Servlet中的路径问题"
-                    data-title="JSP、Servlet中的路径问题"
-                    data-url="http://localhost:4000/2017/01/04/JSP-Servlet%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/"
+                    data-thread-key="/2017/04/05/Json Web Token"
+                    data-title="Json Web Token的定义和使用环境"
+                    data-url="http://localhost:4000/2017/04/05/Json-Web-Token/"
                     data-images="http://localhost:4000/img/home-bg.jpg"
-                    data-content="##JSP、Servlet中的路径问题
-###1.JSP中获得当前应用的相对路径和绝对路径
+                    data-content="什么是Json Web Token?
 
-#####当前我们访问classroom项目下的login.... | 李航的博客 | Lih Blog " >
+
+  Json Web Token （JWT）是一种开放标准（RFC7519），它定义了一种简单且独立的方式，用于... | 李航的博客 | Lih Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -329,13 +322,13 @@ request.getRequestURI();</p>
 
                 <ul class="pager">
                     
-                    
-                    <li class="next">
+                    <li class="previous">
                         <a href="/2017/01/04/javaweb/" data-toggle="tooltip" data-placement="top" title="Java Web开发环境搭建之windows">
-                        Next<br>
+                        Previous<br>
                         <span>Java Web开发环境搭建之windows</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
 
@@ -344,9 +337,9 @@ request.getRequestURI();</p>
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2017/01/04/JSP、Servlet中的路径问题"
-                        data-title="JSP、Servlet中的路径问题"
-                        data-url="http://localhost:4000/2017/01/04/JSP-Servlet%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/" >
+                        data-thread-key="/2017/04/05/Json Web Token"
+                        data-title="Json Web Token的定义和使用环境"
+                        data-url="http://localhost:4000/2017/04/05/Json-Web-Token/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
