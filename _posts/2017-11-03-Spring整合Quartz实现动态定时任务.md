@@ -5,7 +5,7 @@ subtitle:   "Spring 整合 Quartz 实现动态定时任务""
 author:  "李航"
 date:   2017-11-03 20:25:59 +0800
 catalog: true
-tags: 
+tags: Java Spring Quartz
 ---
 
 # Spring 整合 Quartz 实现动态定时任务
