@@ -9,16 +9,77 @@ tags:	Java
 ---
 
 # Java集合框架之HashMap源码解析
+
 > HashMap是通过key-value键值对的方式来存储数据的，通过put、get方法实现键值对的快速存取，这是HashMap最基本的用法。HashMap实现了Map接口，允许放入null元素，除该类未实现同步外，其余跟Hashtable大致相同，跟TreeMap不同，该容器不保证元素顺序，根据需要该容器可能会对元素重新哈希，元素的顺序也会被重新打散，因此不同时间迭代同一个HashMap的顺序可能会不同。
 
-## 概述
+## 概述：
 
 有两个参数可以影响HashMap的性能：初始容量（inital capacity）和负载系数（load factor）。初始容量指定了初始table的大小，负载系数用来指定自动扩容的临界值。当entry的数量超过capacity*load_factor时，容器将自动扩容并重新哈希。对于插入元素较多的场景，将初始容量设大可以减少重新哈希的次数。
 
+```
+/**
+     * The load factor used when none specified in constructor.
+     */
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    /**
+     * The default initial capacity - MUST be a power of two.
+     */
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
+```
+
 ![HashMap结构图](http://img.blog.csdn.net/20171206200800108?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGloYW5nNjU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
+
+## 关键类详解：
+```
+ static class Node<K,V> implements Map.Entry<K,V> {
+        //哈希值
+        final int hash;
+        final K key;
+        V value;
+        //指向下一个节点
+        Node<K,V> next;
+
+        Node(int hash, K key, V value, Node<K,V> next) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+
+        public final K getKey()        { return key; }
+        public final V getValue()      { return value; }
+        public final String toString() { return key + "=" + value; }
+
+        //重写hashCode方法，返回key的hashCode值与value的hashCode值异或运算所得的值
+        public final int hashCode() {
+            return Objects.hashCode(key) ^ Objects.hashCode(value);
+        }
+
+        public final V setValue(V newValue) {
+            V oldValue = value;
+            value = newValue;
+            return oldValue;
+        }
+        //重写equals方法，判断两个Node是否相等，如果两个Node对象的key和value相等，则返回true，否则返回false
+        public final boolean equals(Object o) {
+            if (o == this)
+                return true;
+            if (o instanceof Map.Entry) {
+                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
+                if (Objects.equals(key, e.getKey()) &&
+                        Objects.equals(value, e.getValue()))
+                    return true;
+            }
+            return false;
+        }
+    }
+    
+```
+
 ## 方法详解：
-### put()
+
+#### put()
 
 ```
   public V put(K key, V value) {
@@ -76,7 +137,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict) {
         return null;
     }
 ```
-### get()
+#### get()
 
 ```
 public V get(Object key) {
@@ -111,7 +172,7 @@ final Node<K,V> getNode(int hash, Object key) {
     }
 ```
 
-### remove()
+#### remove()
 
 ```
 public boolean remove(Object key, Object value) {
@@ -168,7 +229,7 @@ final Node<K,V> removeNode(int hash, Object key, Object value,
         return null;
     }
 ```
-## 总结
+## 总结：
  从以上源码的分析中我们知道了HashMap底层维护的是数组加链表的混合结构，其本质是对数组和链表的操作。要注意的是HashMap不是线程安全的，我们可以使用Collections.synchoronizedMap方法来获得线程安全的HashMap。例如：
 
 ```
